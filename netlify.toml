@@ -1,7 +1,7 @@
 [build]
   base = "matrix-portfolio-web"
   command = "npm run build"
-  publish = "matrix-portfolio-web/dist/matrix-portfolio-web/browser"
+  publish = "dist/matrix-portfolio-web/browser"
 
 [[redirects]]
   # Proxy API calls to the Render backend (no CORS needed).
