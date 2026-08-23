@@ -1,0 +1,79 @@
+<section class="container">
+  @if (!loggedIn()) {
+    <div style="max-width:420px; margin:60px auto" class="card">
+      <h2>// operator login</h2>
+      <form (ngSubmit)="login()">
+        <label for="a-user">username</label>
+        <input id="a-user" name="u" [(ngModel)]="username" required />
+        <label for="a-pass">password</label>
+        <input id="a-pass" name="p" type="password" [(ngModel)]="password" required />
+        @if (loginError()) { <p class="error-msg">{{ loginError() }}</p> }
+        <p><button class="btn" type="submit">enter the matrix</button></p>
+      </form>
+    </div>
+  } @else {
+    <div style="display:flex; justify-content:space-between; align-items:center">
+      <h2>// admin console</h2>
+      <button class="btn" (click)="logout()">logout</button>
+    </div>
+
+    <div class="tabs">
+      <button class="btn" [class.active]="tab()==='projects'" (click)="tab.set('projects')">projects</button>
+      <button class="btn" [class.active]="tab()==='messages'" (click)="tab.set('messages')">inbox ({{ messages().filter(m => !m.isRead).length }} unread)</button>
+    </div>
+
+    @if (tab()==='projects') {
+      @if (editing(); as p) {
+        <div class="card">
+          <h3>{{ p.id ? '> editing: ' + p.title : '> new project' }}</h3>
+          <label for="p-title">title</label>
+          <input id="p-title" name="t" [(ngModel)]="p.title" />
+          <label for="p-desc">description</label>
+          <textarea id="p-desc" name="d" rows="4" [(ngModel)]="p.description"></textarea>
+          <label for="p-tags">tags (comma separated)</label>
+          <input id="p-tags" name="tags" [(ngModel)]="p.tagsCsv" placeholder="C#,Angular,Postgres" />
+          <label for="p-repo">repo url</label>
+          <input id="p-repo" name="repo" [(ngModel)]="p.repoUrl" />
+          <label for="p-live">live url</label>
+          <input id="p-live" name="live" [(ngModel)]="p.liveUrl" />
+          <label for="p-order">display order</label>
+          <input id="p-order" name="order" type="number" [(ngModel)]="p.displayOrder" />
+          <p>
+            <label style="display:inline"><input type="checkbox" [(ngModel)]="p.isPublished" style="width:auto" /> published</label>
+          </p>
+          <button class="btn" (click)="save()">save</button>
+          <button class="btn" (click)="cancel()" style="margin-left:10px">cancel</button>
+        </div>
+      }
+      <p><button class="btn" (click)="startNew()">+ new project</button></p>
+      <table class="admin">
+        <tr><th>#</th><th>title</th><th>published</th><th>order</th><th></th></tr>
+        @for (p of projects(); track p.id) {
+          <tr>
+            <td>{{ p.id }}</td>
+            <td>{{ p.title }}</td>
+            <td>{{ p.isPublished ? 'yes' : 'no' }}</td>
+            <td>{{ p.displayOrder }}</td>
+            <td>
+              <button class="btn" (click)="edit(p)">edit</button>
+              <button class="btn" (click)="remove(p.id)" style="margin-left:6px">delete</button>
+            </td>
+          </tr>
+        }
+      </table>
+    }
+
+    @if (tab()==='messages') {
+      @for (m of messages(); track m.id) {
+        <div class="card" [style.opacity]="m.isRead ? 0.55 : 1">
+          <strong>> {{ m.name }}</strong> <span class="tag">{{ m.email }}</span> <span class="tag">{{ m.createdAt | date:'short' }}</span>
+          <p>{{ m.body }}</p>
+          <button class="btn" *ngIf="!m.isRead" (click)="toggleRead(m)">mark read</button>
+          <button class="btn" (click)="deleteMessage(m.id)" style="margin-left:6px">delete</button>
+        </div>
+      } @empty {
+        <p>No messages yet.</p>
+      }
+    }
+  }
+</section>

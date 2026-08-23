@@ -1,0 +1,19 @@
+<section class="container" style="max-width: 560px">
+  <h2>// contact</h2>
+  @if (sent()) {
+    <div class="card">
+      <p class="ok-msg">> Message received. The Oracle will answer soon.</p>
+    </div>
+  } @else {
+    <form (ngSubmit)="send()" #f="ngForm">
+      <label for="c-name">your name</label>
+      <input id="c-name" name="name" [(ngModel)]="name" required />
+      <label for="c-email">your email</label>
+      <input id="c-email" name="email" type="email" [(ngModel)]="email" required email />
+      <label for="c-body">message</label>
+      <textarea id="c-body" name="body" rows="6" [(ngModel)]="body" required></textarea>
+      @if (error()) { <p class="error-msg">{{ error() }}</p> }
+      <p><button class="btn" type="submit" [disabled]="!f.form.valid">transmit</button></p>
+    </form>
+  }
+</section>

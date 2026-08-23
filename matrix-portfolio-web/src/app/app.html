@@ -1,0 +1,21 @@
+<div class="rain" aria-hidden="true">
+  @for (col of rainColumns(); track $index) {
+    <div class="rain-col" [style.animation-duration.ms]="4000 + ($index % 7) * 900">
+      @for (ch of col; track $index) {<span>{{ ch }}</span>}
+    </div>
+  }
+</div>
+
+<header class="topbar">
+  <a routerLink="/" class="logo">HD://matrix_portfolio <span class="blink"></span></a>
+  <nav>
+    <a routerLink="/">home</a>
+    <a routerLink="/projects">projects</a>
+    <a routerLink="/contact">contact</a>
+    <a routerLink="/admin">admin</a>
+  </nav>
+</header>
+
+<main><router-outlet /></main>
+
+<footer class="footer">// there is no spoon — built with .NET + Angular, free-tier deployed</footer>

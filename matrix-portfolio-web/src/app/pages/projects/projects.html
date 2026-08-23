@@ -1,0 +1,18 @@
+<section class="container">
+  <h2>// projects</h2>
+  @for (p of projects(); track p.id) {
+    <article class="card">
+      <h3>> {{ p.title }}</h3>
+      <p>{{ p.description }}</p>
+      <div>
+        @for (t of p.tagsCsv.split(','); track t) { <span class="tag">{{ t }}</span> }
+      </div>
+      <div style="margin-top: 12px">
+        @if (p.repoUrl) { <a class="btn" [href]="p.repoUrl" target="_blank" rel="noopener" style="margin-right:10px">source code</a> }
+        @if (p.liveUrl) { <a class="btn" [href]="p.liveUrl" target="_blank" rel="noopener">live demo</a> }
+      </div>
+    </article>
+  } @empty {
+    <p>No projects loaded. Is the API running?</p>
+  }
+</section>

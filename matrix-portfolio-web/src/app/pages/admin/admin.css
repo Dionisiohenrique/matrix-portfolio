@@ -1,0 +1,2 @@
+.tabs { display: flex; gap: 10px; margin-bottom: 18px; }
+.tabs .btn.active { background: rgba(0,255,102,.18); box-shadow: 0 0 12px rgba(0,255,102,.4); }

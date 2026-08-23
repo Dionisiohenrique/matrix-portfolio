@@ -1,0 +1,22 @@
+[build]
+  command = "npm run build"
+  publish = "dist/matrix-portfolio-web/browser"
+
+[[redirects]]
+  # Proxy API calls to the Render backend (no CORS needed).
+  # Replace with your actual Render URL after the API is deployed.
+  from = "/api/*"
+  to = "https://REPLACE-WITH-YOUR-RENDER-URL.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"

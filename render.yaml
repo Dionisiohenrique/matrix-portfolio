@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: matrix-portfolio-api
+    runtime: docker
+    dockerfilePath: ./MatrixPortfolio.Api/Dockerfile
+    dockerContext: ./MatrixPortfolio.Api
+    plan: free
+    healthCheckPath: /api/projects
+    envVars:
+      - key: ConnectionStrings__Default
+        sync: false          # paste your Neon connection string in the dashboard
+      - key: Jwt__Key
+        generateValue: true
+      - key: Jwt__Issuer
+        value: matrix-portfolio
+      - key: Jwt__Audience
+        value: matrix-portfolio
+      - key: Admin__Username
+        sync: false
+      - key: Admin__Password
+        sync: false
+      - key: Frontend__Url
+        sync: false          # your Netlify URL, e.g. https://your-site.netlify.app

@@ -1,0 +1,18 @@
+.hero { padding-top: 60px; }
+.wake { color: var(--green-dim); letter-spacing: 3px; }
+.hero h1 { font-size: clamp(32px, 6vw, 56px); margin: 8px 0; text-shadow: 0 0 18px rgba(0,255,102,.5); }
+.hero h2 { font-size: clamp(16px, 3vw, 22px); color: var(--fg); font-weight: normal; }
+.about { max-width: 720px; line-height: 1.7; }
+.cta { display: flex; gap: 14px; flex-wrap: wrap; margin: 26px 0 40px; }
+
+.skills { max-width: 640px; }
+.skill-row { display: grid; grid-template-columns: 200px 1fr 48px; gap: 12px; align-items: center; margin-bottom: 10px; }
+.skill-name { color: var(--fg); font-size: 14px; }
+.skill-level { color: var(--green-dim); font-size: 13px; text-align: right; }
+.bar { height: 10px; border: 1px solid var(--green-dark); background: #04150a; }
+.fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green-dark), var(--green));
+  box-shadow: 0 0 10px rgba(0,255,102,.6);
+}
+@media (max-width: 640px) { .skill-row { grid-template-columns: 120px 1fr 44px; } }

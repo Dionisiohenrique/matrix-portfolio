@@ -1,0 +1,26 @@
+<section class="hero container">
+  <p class="wake">// Wake up, {{ profile['name'] || 'visitor' }}...</p>
+  <h1>{{ profile['name'] }}</h1>
+  <h2>{{ profile['headline'] }}</h2>
+  <p class="about">{{ profile['about'] }}</p>
+  <div class="cta">
+    <a class="btn" routerLink="/projects">follow the white rabbit → projects</a>
+    @if (profile['github']) {
+      <a class="btn" [href]="profile['github']" target="_blank" rel="noopener">github</a>
+    }
+    @if (profile['linkedin']) {
+      <a class="btn" [href]="profile['linkedin']" target="_blank" rel="noopener">linkedin</a>
+    }
+  </div>
+
+  <h3>// skills</h3>
+  <div class="skills">
+    @for (s of skills; track s.name) {
+      <div class="skill-row">
+        <span class="skill-name">{{ s.name }}</span>
+        <div class="bar"><div class="fill" [style.width.%]="s.level"></div></div>
+        <span class="skill-level">{{ s.level }}%</span>
+      </div>
+    }
+  </div>
+</section>

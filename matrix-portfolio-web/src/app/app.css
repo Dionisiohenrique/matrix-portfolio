@@ -1,0 +1,51 @@
+.rain {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: space-around;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+.rain-col {
+  display: flex;
+  flex-direction: column;
+  color: rgba(0, 255, 102, .14);
+  font-size: 18px;
+  line-height: 1.35;
+  animation: fall linear infinite;
+}
+@keyframes fall {
+  from { transform: translateY(-40%); }
+  to   { transform: translateY(10%); }
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+  background: rgba(3, 9, 3, .92);
+  border-bottom: 1px solid var(--green-dark);
+}
+.logo { font-size: 18px; letter-spacing: 2px; }
+.topbar nav a { margin-left: 20px; font-size: 15px; }
+
+main { min-height: calc(100vh - 130px); position: relative; z-index: 1; }
+.footer {
+  text-align: center;
+  padding: 18px;
+  color: var(--green-dim);
+  border-top: 1px solid var(--green-dark);
+  font-size: 13px;
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 640px) {
+  .topbar { flex-direction: column; gap: 8px; }
+  .topbar nav a { margin: 0 8px; }
+}
