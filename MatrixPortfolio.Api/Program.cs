@@ -10,8 +10,29 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApi();
 
+// Neon/Heroku-style URIs ("postgresql://user:pass@host/db?sslmode=require")
+// are not accepted by Npgsql directly — convert to keyword format.
+static string NormalizeConnectionString(string raw)
+{
+    if (!raw.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase) &&
+        !raw.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase))
+        return raw;
+
+    var uri = new Uri(raw.Replace("postgres://", "http://").Replace("postgresql://", "http://"));
+    var parts = System.Web.HttpUtility.ParseQueryString(uri.Query);
+    var sb = new StringBuilder();
+    sb.Append($"Host={uri.Host};");
+    if (uri.Port > 0) sb.Append($"Port={uri.Port};");
+    sb.Append($"Database={uri.AbsolutePath.Trim('/')};");
+    sb.Append($"Username={Uri.UnescapeDataString(uri.UserInfo.Split(':')[0])};");
+    var pwd = uri.UserInfo.Split(':')[1..];
+    sb.Append($"Password={Uri.UnescapeDataString(string.Join(':', pwd))};");
+    if (parts["sslmode"] == "require" || uri.Host.Contains("neon")) sb.Append("SSL Mode=Require;");
+    return sb.ToString();
+}
+
 builder.Services.AddDbContext<AppDbContext>(o =>
-    o.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
+    o.UseNpgsql(NormalizeConnectionString(builder.Configuration.GetConnectionString("Default") ?? "")));
 
 builder.Services.AddCors(o => o.AddPolicy("front", p => p
     .WithOrigins(
