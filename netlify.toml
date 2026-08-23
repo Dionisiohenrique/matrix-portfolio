@@ -1,12 +1,12 @@
 [build]
+  base = "matrix-portfolio-web"
   command = "npm run build"
-  publish = "dist/matrix-portfolio-web/browser"
+  publish = "matrix-portfolio-web/dist/matrix-portfolio-web/browser"
 
 [[redirects]]
   # Proxy API calls to the Render backend (no CORS needed).
-  # Replace with your actual Render URL after the API is deployed.
   from = "/api/*"
-  to = "https://REPLACE-WITH-YOUR-RENDER-URL.onrender.com/api/:splat"
+  to = "https://matrix-portfolio-api.onrender.com/api/:splat"
   status = 200
   force = true
 
